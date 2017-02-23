@@ -38,7 +38,7 @@ def download_posts(url, blog_name):
 
     # Start downloading
     if os.path.exists(file_name):
-        print("{} already downloaded".format(file_name))
+        pass
     else:
         r = requests.get(url, stream=True)
         print("Downloading {}".format(file_name))
