@@ -8,8 +8,8 @@ __copyright__ = "Copyright © 2017 nix-py"
 
 
 import argparse
-import os
 import json
+import os
 import requests
 
 
