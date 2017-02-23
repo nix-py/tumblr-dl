@@ -19,7 +19,11 @@ def get_photo_urls(blog_name, pages):
                 'http://{}.tumblr.com/api/read/json?start={}&num=50'.format(
                 blog_name, page
                 ))
-        html_src = requests.get(api_url).text
+        r = requests.get(api_url)
+        if r.status_code == 404:
+            print('Error: Does not able to retreive data')
+            return
+        html_src = r.text
         html_src = html_src.replace('var tumblr_api_read = ', '')
         html_src = html_src.replace(';', '')
         json_data = json.loads(html_src)
@@ -67,5 +71,9 @@ if __name__ == "__main__":
             )
     args = parser.parse_args()
 
-    for url in get_photo_urls(args.blog_name, args.pages):
-        download_posts(url, args.blog_name)
+    try:
+        for url in get_photo_urls(args.blog_name, args.pages):
+            download_posts(url, args.blog_name)
+    except (KeyboardInterrupt, RuntimeError):
+        import sys
+        sys.exit()
